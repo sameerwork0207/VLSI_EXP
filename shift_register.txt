@@ -1,0 +1,31 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity shift_register is
+    Port (
+        clk   : in STD_LOGIC;
+        reset : in STD_LOGIC;
+        SI    : in STD_LOGIC; -- 1-bit serial input
+        SO    : out STD_LOGIC
+    );
+end shift_register;
+
+architecture Behavioral of shift_register is
+    signal reg : STD_LOGIC_VECTOR (3 downto 0) := "0000";
+
+begin
+
+    process(clk, reset)
+    begin
+        if reset = '1' then
+            reg <= "0000";
+
+        elsif rising_edge(clk) then
+            reg <= SI & reg(3 downto 1); -- 1 + 3 = 4 bits
+
+        end if;
+    end process;
+
+    SO <= reg(0);
+
+end Behavioral;
